@@ -822,7 +822,7 @@ h6 {
     display: flex;
     gap: var(--card-gap);
     width: max-content;
-    animation: scrollGallery 30s linear infinite;
+    animation: scrollGallery 40s linear infinite;
 }
 
 .gallery-marquee-track:hover {
@@ -899,8 +899,8 @@ h6 {
     }
 
     100% {
-        /* Calculate shift for 3 items: (width + gap) * 3 */
-        transform: translateX(calc(-1 * (var(--card-width) + var(--card-gap)) * 3));
+        /* Calculate shift for 4 items: (width + gap) * 4 */
+        transform: translateX(calc(-1 * (var(--card-width) + var(--card-gap)) * 4));
     }
 }
 
@@ -1008,37 +1008,77 @@ h6 {
     flex-wrap: wrap;
 }
 
-.benefit-glass-item {
-    text-align: center;
-    max-width: 350px;
-    /* increased max width */
-    padding: 15px 30px;
-    /* Increased horizontal padding */
-    transition: transform 0.3s;
-}
-
-.benefit-glass-item:hover {
-    transform: translateY(-5px);
-}
-
-.benefit-icon-large {
-    font-size: 3rem;
-    /* Slightly smaller */
-    color: var(--primary-light);
-    margin-bottom: 15px;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
-}
-
-.benefit-glass-item h4 {
-    font-size: 1.3rem;
-    font-family: var(--font-sec);
-    margin-bottom: 8px;
+/* Premium Benefit Cards */
+.benefit-glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    /* Very subtle fill */
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 30px 25px;
+    border-radius: 20px;
+    width: 300px;
     color: white;
+    transition: all 0.4s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
 }
 
-.benefit-glass-item p {
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 1rem;
+.benefit-glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, transparent 100%);
+    z-index: 0;
+}
+
+.benefit-glass-card:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-8px);
+    border-color: rgba(212, 175, 55, 0.4);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.icon-circle-premium {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #FFD700;
+    /* Gold */
+    font-size: 2.2rem;
+    /* Increased size */
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    /* Added shadow for pop */
+}
+
+.benefit-glass-card h4 {
+    font-size: 1.25rem;
+    font-family: var(--font-sec);
+    margin-bottom: 10px;
+    color: white;
+    z-index: 1;
+}
+
+.benefit-glass-card p {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.5;
+    z-index: 1;
+    margin-bottom: 0;
 }
 
 .divider-vertical-glass {

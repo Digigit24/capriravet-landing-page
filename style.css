@@ -2112,3 +2112,103 @@ h6 {
         font-size: 2rem;
     }
 }
+
+/* =========================================
+   Hero Section Responsive Styles
+   ========================================= */
+
+@media (max-width: 992px) {
+    .navbar {
+        background: rgba(0, 0, 0, 0.6);
+        /* Slight background for readability */
+        backdrop-filter: blur(10px);
+    }
+
+    .hero-section {
+        height: auto;
+        min-height: 100vh;
+        padding-top: 100px;
+        padding-bottom: 60px;
+        align-items: center;
+        overflow-y: auto;
+        /* Allow scrolling if content is tall */
+    }
+
+    .hero-content-wrapper {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 40px;
+        text-align: center;
+    }
+
+    .hero-text {
+        flex: initial;
+        max-width: 100%;
+        padding: 0 10px;
+    }
+
+    .hero-text h1 {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+
+    .hero-badges {
+        justify-content: center;
+        margin-bottom: 10px;
+    }
+
+    .hero-form-container {
+        flex: initial;
+        width: 100%;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .scroll-indicator {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-text h1 {
+        font-size: 2.2rem;
+        line-height: 1.2;
+    }
+
+    .hero-text .subheadline {
+        font-size: 1.1rem;
+        margin-bottom: 25px;
+    }
+
+    .hero-badges {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+    }
+
+    .badge {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .glass-card {
+        padding: 25px 20px;
+    }
+
+    .form-group input,
+    .form-group select {
+        padding: 10px 10px 10px 40px;
+        font-size: 0.95rem;
+        /* Prevent zoom on iOS */
+    }
+
+    .logo {
+        height: 32px;
+    }
+
+    .btn-sm {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+}

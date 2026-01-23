@@ -1450,37 +1450,23 @@ h6 {
     color: #444;
 }
 
+/* Responsive Footer Styles */
 @media (max-width: 992px) {
     .footer-top {
         grid-template-columns: 1fr 1fr;
-        /* 2 columns on tablet */
-        gap: 30px;
+        /* 2 Columns on Tablet */
+        gap: 40px;
     }
 
     .footer-brand {
         grid-column: span 2;
-        /* Brand takes full width on tablet */
+        /* Brand spans full width */
         text-align: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
     }
 
     .footer-brand .brand-desc {
-        max-width: 80%;
-        margin: 0 auto 25px;
-    }
-
-    .footer-social-icons {
-        justify-content: center;
-    }
-}
-
-@media (max-width: 600px) {
-    .footer-top {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .footer-brand .footer-logo {
+        max-width: 70%;
         margin: 0 auto 20px;
     }
 
@@ -1488,20 +1474,85 @@ h6 {
         justify-content: center;
     }
 
+    /* Center align headings on tablet for visual balance */
+    .footer-links-col h4,
+    .footer-contact-col h4 {
+        text-align: center;
+    }
+
     .footer-links-col h4::after,
-    .footer-contact-col h4::after,
-    .footer-rera-col h4::after {
+    .footer-contact-col h4::after {
         left: 50%;
         transform: translateX(-50%);
+    }
+
+    .footer-links-col ul {
+        text-align: center;
     }
 
     .contact-list li {
         justify-content: center;
     }
+}
+
+@media (max-width: 768px) {
+    .footer-top {
+        gap: 30px;
+    }
+
+    .footer-brand .brand-desc {
+        max-width: 90%;
+        /* Utilize more space on smaller tablets */
+    }
+}
+
+@media (max-width: 576px) {
+    .footer-top {
+        grid-template-columns: 1fr;
+        /* 1 Column on Mobile */
+        gap: 35px;
+        text-align: center;
+    }
+
+    .footer-brand {
+        grid-column: span 1;
+        margin-bottom: 20px;
+    }
+
+    .footer-brand .footer-logo {
+        margin: 0 auto 15px;
+        max-width: 130px;
+    }
 
     .footer-bottom {
         flex-direction: column;
         gap: 15px;
+        text-align: center;
+    }
+
+    .legal-links {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .separator {
+        display: none;
+        /* Hide separator on small screens if lines wrap */
+    }
+
+    .legal-links a {
+        display: block;
+        margin: 0 5px;
+    }
+
+    /* Improve tap targets */
+    .footer-links-col ul li {
+        margin-bottom: 15px;
+    }
+
+    .footer-links-col ul li a {
+        padding: 5px;
     }
 }
 

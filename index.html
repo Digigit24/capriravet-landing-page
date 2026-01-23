@@ -63,28 +63,28 @@
             <div class="hero-form-container glass-card fade-in delay-3">
                 <h2>Enquire Now</h2>
                 <p>Register your interest today</p>
-                <form id="enquiryForm" onsubmit="event.preventDefault(); openModal('thankYouModal');">
+                <form id="enquiryForm" onsubmit="submitHeroForm(event)">
                     <div class="form-group">
                         <label for="name" class="sr-only">Name</label>
                         <i class="fas fa-user form-icon"></i>
-                        <input type="text" id="name" placeholder="Enter your name" required>
+                        <input type="text" id="name" name="fullName" placeholder="Enter your name" required>
                     </div>
                     <div class="form-group">
                         <label for="phone" class="sr-only">Phone Number</label>
                         <i class="fas fa-phone form-icon"></i>
-                        <input type="tel" id="phone" placeholder="Enter your phone number" pattern="[0-9]{10}"
-                            maxlength="10" title="Please enter a valid 10-digit mobile number" required
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                        <input type="tel" id="phone" name="phone" placeholder="Enter your phone number"
+                            pattern="[0-9]{10}" maxlength="10" title="Please enter a valid 10-digit mobile number"
+                            required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                     </div>
                     <div class="form-group">
                         <label for="email" class="sr-only">Email</label>
                         <i class="fas fa-envelope form-icon"></i>
-                        <input type="email" id="email" placeholder="Enter your email address" required>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required>
                     </div>
                     <div class="form-group">
                         <label for="unitType" class="sr-only">Unit Type</label>
                         <i class="fas fa-home form-icon"></i>
-                        <select id="unitType" required>
+                        <select id="unitType" name="requirement" required>
                             <option value="" disabled>Select Unit Type</option>
                             <option value="3 BHK" selected>3 BHK Luxury</option>
                             <option value="3 BHK">3 BHK Premier</option>
@@ -92,11 +92,10 @@
                     </div>
 
                     <div class="form-actions">
-                        <button type="button" class="btn btn-secondary btn-block"
-                            onclick="openModal('pricingAndFloorPlans')">
+                        <button type="submit" class="btn btn-secondary btn-block">
                             Get Pricing & Floor Plans
                         </button>
-                        <button type="button" class="btn btn-primary btn-block" onclick="openModal('bookVisit')">
+                        <button type="submit" class="btn btn-primary btn-block">
                             Book Site Visit Now
                         </button>
                     </div>

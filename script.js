@@ -1,3 +1,6 @@
+// API Configuration
+const API_URL = "https://forms.thedigitechsolutions.com/api/forms/submit/08c75a45-133f-4562-aba8-35707a3df5e1";
+
 // Modal Logic
 const modalOverlay = document.getElementById('modalOverlay');
 const modalContent = document.getElementById('modalContent');
@@ -35,27 +38,25 @@ function openModal(modalType) {
             buttonText = "Claim Offer";
             break;
         case 'thankYouModal':
-            // Should likely trigger after submission, but can be a type too
             title = "Thank You!";
             message = "We have received your request and will get back to you shortly.";
             buttonText = "Close";
             break;
     }
 
-    // Update Modal Content Dynamically
     if (modalType !== 'thankYouModal') {
         modalContent.innerHTML = `
             <h3>${title}</h3>
             <p>${message}</p>
-            <form class="modal-form" onsubmit="handleFormSubmit(event, '${modalType}')">
+            <form class="modal-form" onsubmit="handleModalFormSubmit(event, '${modalType}')">
                 <div class="form-group">
-                    <input type="text" placeholder="Name" required>
+                    <input type="text" name="fullName" placeholder="Name" required>
                 </div>
                 <div class="form-group">
-                    <input type="tel" placeholder="Phone Number" required>
+                    <input type="tel" name="phone" placeholder="Phone Number" pattern="[0-9]{10}" maxlength="10" title="10 digit mobile number" required oninput="this.value = this.value.replace(/[^0-9]/g, '')">
                 </div>
                 <div class="form-group">
-                    <input type="email" placeholder="Email (Optional)">
+                    <input type="email" name="email" placeholder="Email (Optional)">
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">${buttonText}</button>
             </form>
@@ -72,7 +73,7 @@ function openModal(modalType) {
     }
 
     modalOverlay.classList.add('active');
-    body.style.overflow = 'hidden'; // Prevent background scrolling
+    body.style.overflow = 'hidden';
 }
 
 function closeModal() {
@@ -87,22 +88,105 @@ modalOverlay.addEventListener('click', (e) => {
     }
 });
 
-function handleFormSubmit(e, type) {
-    e.preventDefault();
-    // Simulate API call
-    const button = e.target.querySelector('button');
-    const originalText = button.innerText;
-    button.innerText = "Processing...";
-    button.disabled = true;
-
-    setTimeout(() => {
-        closeModal();
-        // Show success message or thank you modal
-        setTimeout(() => {
-            openModal('thankYouModal');
-        }, 300);
-    }, 1500);
+// Helper: Split Name
+function splitName(fullName) {
+    const parts = fullName.trim().split(' ');
+    const firstName = parts[0];
+    const lastName = parts.slice(1).join(' ') || '';
+    return { firstName, lastName };
 }
+
+// Helper: Submit to API
+async function submitToApi(payload, buttonElement, originalButtonText) {
+    buttonElement.disabled = true;
+    buttonElement.innerText = "Sending...";
+
+    try {
+        const response = await fetch(API_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            // Success
+            if (modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+            setTimeout(() => {
+                openModal('thankYouModal');
+            }, 300);
+        } else {
+            alert("Something went wrong. Please try again later.");
+            buttonElement.innerText = originalButtonText;
+            buttonElement.disabled = false;
+        }
+    } catch (error) {
+        console.error("API Error:", error);
+        alert("Network error. Please try again.");
+        buttonElement.innerText = originalButtonText;
+        buttonElement.disabled = false;
+    }
+}
+
+// Handler for Modal Forms
+function handleModalFormSubmit(e, source) {
+    e.preventDefault();
+    const form = e.target;
+    const button = form.querySelector('button[type="submit"]');
+    const originalText = button.innerText;
+
+    const formData = new FormData(form);
+    const fullName = formData.get('fullName');
+    const { firstName, lastName } = splitName(fullName);
+
+    const payload = {
+        first_name: firstName,
+        last_name: lastName,
+        email: formData.get('email') || "",
+        phone: formData.get('phone'),
+        message: `Landing Page Enquiry - Source: ${source}`,
+        requirement: "3 BHK" // Defaulting as specific requirement isn't in generic modal
+    };
+
+    submitToApi(payload, button, originalText);
+}
+
+// Handler for Hero Section Form
+function submitHeroForm(e) {
+    e.preventDefault();
+    const form = e.target;
+    // Determine which button was clicked
+    const submitter = e.submitter;
+    const actionName = submitter ? submitter.innerText : "General Enquiry";
+    const originalText = submitter ? submitter.innerText : "Submit";
+
+    const formData = new FormData(form);
+    const fullName = formData.get('fullName');
+    const { firstName, lastName } = splitName(fullName);
+
+    const payload = {
+        first_name: firstName,
+        last_name: lastName,
+        email: formData.get('email') || "",
+        phone: formData.get('phone'),
+        message: `Landing Page Enquiry - Hero Section Action: ${actionName}`,
+        requirement: formData.get('requirement') || "3 BHK"
+    };
+
+    if (submitter) {
+        submitToApi(payload, submitter, originalText);
+    } else {
+        // Fallback if submitted via Enter key (default to first button or generic behavior)
+        const firstButton = form.querySelector('button[type="submit"]');
+        if (firstButton) {
+            submitToApi(payload, firstButton, firstButton.innerText);
+        }
+    }
+}
+
 
 function openWhatsapp() {
     window.open('https://wa.me/919876543210?text=Hi, I am interested in Capri Ravet project.', '_blank');
